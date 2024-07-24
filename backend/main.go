@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	authentication "github.com/its-dev24/off-campus-placement-tracker/Authentication"
+	sheetshelper "github.com/its-dev24/off-campus-placement-tracker/SheetsFunctions"
 )
 
 func main() {
-	fmt.Println(authentication.Client)
+	fmt.Println(sheetshelper.Client)
 }
