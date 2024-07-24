@@ -1,11 +1,14 @@
 package sheetshelper
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/its-dev24/off-campus-placement-tracker/modal"
 	"github.com/joho/godotenv"
 )
 
@@ -25,7 +28,12 @@ func ReadApplications() {
 	if err != nil {
 		log.Fatal("Error While retriving Data : ", err)
 	}
-	fmt.Println(result)
+	job, _ := json.Marshal(result.Values)
+	jobReader := bytes.NewReader(job)
+	//FIXME: Need to fix this Function
+	var jobs []modal.Job
+	json.NewDecoder(jobReader).Decode(&jobs)
+	fmt.Println(jobs)
 
 }
 
