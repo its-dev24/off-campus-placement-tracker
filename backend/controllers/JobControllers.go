@@ -8,7 +8,7 @@ import (
 	sheetshelper "github.com/its-dev24/off-campus-placement-tracker/SheetsFunctions"
 )
 
-func handleReadAll(w http.ResponseWriter, r *http.Request) {
+func HandleReadAll(w http.ResponseWriter, r *http.Request) {
 	jobs := sheetshelper.ReadApplications()
 	err := json.NewEncoder(w).Encode(jobs)
 	if err != nil {
