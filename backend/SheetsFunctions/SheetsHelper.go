@@ -1,13 +1,13 @@
 package sheetshelper
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/its-dev24/off-campus-placement-tracker/helper"
 	"github.com/its-dev24/off-campus-placement-tracker/modal"
 	"github.com/joho/godotenv"
 )
@@ -24,16 +24,21 @@ func init() {
 
 // Function To read all Job Applications
 func ReadApplications() {
-	result, err := Client.Spreadsheets.Values.Get(sheetsID, "Sheet1!A:D").Context(context.Background()).Do()
+	result, err := Client.Spreadsheets.Values.Get(sheetsID, "Sheet1!A:E").Context(context.Background()).Do()
 	if err != nil {
 		log.Fatal("Error While retriving Data : ", err)
 	}
-	job, _ := json.Marshal(result.Values)
-	jobReader := bytes.NewReader(job)
 	//FIXME: Need to fix this Function
 	var jobs []modal.Job
-	json.NewDecoder(jobReader).Decode(&jobs)
-	fmt.Println(jobs)
+	for _, val := range result.Values {
+		job := helper.ConvertSliceToStruct(val)
+		jobs = append(jobs, job)
+	}
+	jobsJson, err := json.MarshalIndent(jobs, "", "\t")
+	if err != nil {
+		log.Fatal("Error whle converting to json : ", err)
+	}
+	fmt.Println(string(jobsJson))
 
 }
 
