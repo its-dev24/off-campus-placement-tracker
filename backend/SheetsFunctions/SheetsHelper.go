@@ -26,7 +26,6 @@ func ReadApplications() []modal.Job {
 	if err != nil {
 		log.Fatal("Error While retriving Data : ", err)
 	}
-	//FIXME: Need to fix this Function
 	var jobs []modal.Job
 	for _, val := range result.Values {
 		job := helper.ConvertSliceToStruct(val)
