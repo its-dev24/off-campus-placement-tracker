@@ -2,8 +2,6 @@ package sheetshelper
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 
@@ -23,7 +21,7 @@ func init() {
 }
 
 // Function To read all Job Applications
-func ReadApplications() {
+func ReadApplications() []modal.Job {
 	result, err := Client.Spreadsheets.Values.Get(sheetsID, "Sheet1!A:E").Context(context.Background()).Do()
 	if err != nil {
 		log.Fatal("Error While retriving Data : ", err)
@@ -34,12 +32,7 @@ func ReadApplications() {
 		job := helper.ConvertSliceToStruct(val)
 		jobs = append(jobs, job)
 	}
-	jobsJson, err := json.MarshalIndent(jobs, "", "\t")
-	if err != nil {
-		log.Fatal("Error whle converting to json : ", err)
-	}
-	fmt.Println(string(jobsJson))
-
+	return jobs
 }
 
 //TODO:Function To Insert A Job Application
