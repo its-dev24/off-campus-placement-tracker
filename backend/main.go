@@ -1,27 +1,30 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
+	"os"
 
-	db "github.com/its-dev24/off-campus-placement-tracker/DB"
+	router "github.com/its-dev24/off-campus-placement-tracker/Router"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatal("Error while Loading Environment Variable : main.go : ", err)
-	// }
-	// port := os.Getenv("PORT")
-	// mux := router.Router()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error while Loading Environment Variable : main.go : ", err)
+	}
+	port := os.Getenv("PORT")
+	mux := router.Router()
 
-	// server := http.Server{
-	// 	Addr:    port,
-	// 	Handler: mux,
-	// }
+	server := http.Server{
+		Addr:    port,
+		Handler: mux,
+	}
 
-	// err = server.ListenAndServe()
-	// if err != nil {
-	// 	log.Fatal("Error While Running Server : main.go : ", err)
-	// }
-	fmt.Println(db.MongoCol)
+	err = server.ListenAndServe()
+	if err != nil {
+		log.Fatal("Error While Running Server : main.go : ", err)
+	}
+
 }

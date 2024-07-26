@@ -5,13 +5,20 @@ import (
 	"log"
 	"net/http"
 
-	sheetshelper "github.com/its-dev24/off-campus-placement-tracker/SheetsFunctions"
+	db "github.com/its-dev24/off-campus-placement-tracker/DB"
 )
 
 func HandleReadAll(w http.ResponseWriter, r *http.Request) {
-	jobs := sheetshelper.ReadApplications()
-	err := json.NewEncoder(w).Encode(jobs)
+	jobs, err := db.ReadAllApplications()
 	if err != nil {
-		log.Fatal("Error While Reading all jobs : jobControllers :  ", err)
+		json.NewEncoder(w).Encode(err)
+		log.Fatal("Error while reading jobs")
+		return
 	}
+	if jobs == nil {
+		json.NewEncoder(w).Encode("No jobs to display")
+		return
+	}
+	json.NewEncoder(w).Encode(jobs)
+
 }
