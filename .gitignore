@@ -21,8 +21,6 @@
 go.work
 go.work.sum
 
-#Database
-DB
 
 #environemts
 .env
