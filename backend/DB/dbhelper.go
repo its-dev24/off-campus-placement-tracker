@@ -16,4 +16,10 @@ func ReadAllApplications() ([]modal.Job, error) {
 	cur.All(context.Background(), &jobs)
 	return jobs, nil
 }
-
+func DeleteAllApplications() (int, error) {
+	deleteResult, err := MongoCol.DeleteMany(context.Background(), bson.M{})
+	if err != nil {
+		return 0, err
+	}
+	return int(deleteResult.DeletedCount), nil
+}
