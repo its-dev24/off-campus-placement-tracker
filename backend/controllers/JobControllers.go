@@ -8,10 +8,12 @@ import (
 	db "github.com/its-dev24/off-campus-placement-tracker/DB"
 )
 
+//Handler For retriving All job Listing
+
 func HandleReadAll(w http.ResponseWriter, r *http.Request) {
 	jobs, err := db.ReadAllApplications()
 	if err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode("Error while reading jobs" + err.Error())
 		log.Fatal("Error while reading jobs")
 		return
 	}
@@ -21,4 +23,18 @@ func HandleReadAll(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(jobs)
 
+}
+
+//Handler For Deleting a Single Job
+
+func HandleDeleteOne(w http.ResponseWriter, r *http.Request) {
+
+	id := r.PathValue("id")
+	deletedCount, err := db.DeleteASingleApplication(id)
+	if err != nil {
+		json.NewEncoder(w).Encode("Error While Deleteing A Single job : " + err.Error())
+		log.Fatal("Error While Deleteing A Single job : ", err)
+		return
+	}
+	json.NewEncoder(w).Encode("No of Items Deleted : " + string(deletedCount))
 }
