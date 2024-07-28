@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	db "github.com/its-dev24/off-campus-placement-tracker/DB"
 )
@@ -36,5 +37,18 @@ func HandleDeleteOne(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error While Deleteing A Single job : ", err)
 		return
 	}
-	json.NewEncoder(w).Encode("No of Items Deleted : " + string(deletedCount))
+	json.NewEncoder(w).Encode("No of Items Deleted : " + strconv.Itoa(deletedCount))
+}
+
+//Function To Delete All Jobs
+
+func HandeleDeleteAll(w http.ResponseWriter, r *http.Request) {
+	deleteCount, err := db.DeleteAllApplications()
+	if err != nil {
+		json.NewEncoder(w).Encode("Error While Deleteing All job : " + err.Error())
+		log.Fatal("Error While Deleteing All job : ", err)
+		return
+	}
+	json.NewEncoder(w).Encode("No of Items Deleted : " + strconv.Itoa(deleteCount))
+
 }
