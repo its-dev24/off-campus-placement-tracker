@@ -7,3 +7,7 @@ type Job struct {
 	Status  string `json:"status,omitempty" bson:"status,omitempty"`
 	WebSite string `json:"wesite,omitempty" bson:"wesite,omitempty"`
 }
+
+func (j *Job) IsEmpty() bool {
+	return j.Company == "" || j.JobRole == "" || j.Status == "" || j.WebSite == ""
+}

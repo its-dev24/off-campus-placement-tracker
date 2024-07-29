@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	db "github.com/its-dev24/off-campus-placement-tracker/DB"
+	"github.com/its-dev24/off-campus-placement-tracker/modal"
 )
 
 //Handler For retriving All job Listing
@@ -51,4 +52,29 @@ func HandeleDeleteAll(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode("No of Items Deleted : " + strconv.Itoa(deleteCount))
 
+}
+
+//Function TO update Jobs
+
+func HandleUpdate(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	if r.Body == nil {
+		json.NewEncoder(w).Encode("Request Body is Empty")
+		return
+	}
+	var jobBody modal.Job
+	err := json.NewDecoder(r.Body).Decode(&jobBody)
+	if err != nil {
+		log.Fatal("Error while Parsing Body : jobController.go : ", err)
+	}
+	if jobBody.IsEmpty() {
+		json.NewEncoder(w).Encode("Json Body Is Empty Please Fill All The Fields")
+		return
+	}
+	updateCount, err := db.UpdateJobs(id, jobBody)
+	if err != nil {
+		json.NewEncoder(w).Encode("Error While Updating Job..")
+		log.Fatal("Error while updating Job : JobController.go : ", err)
+	}
+	json.NewEncoder(w).Encode("No of Fileds Updated " + strconv.Itoa(updateCount))
 }
