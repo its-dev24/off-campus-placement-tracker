@@ -13,6 +13,7 @@ import (
 //Handler For retriving All job Listing
 
 func HandleReadAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	jobs, err := db.ReadAllApplications()
 	if err != nil {
 		json.NewEncoder(w).Encode("Error while reading jobs" + err.Error())
@@ -30,7 +31,7 @@ func HandleReadAll(w http.ResponseWriter, r *http.Request) {
 //Handler For Deleting a Single Job
 
 func HandleDeleteOne(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
 	id := r.PathValue("id")
 	deletedCount, err := db.DeleteASingleApplication(id)
 	if err != nil {
@@ -44,6 +45,7 @@ func HandleDeleteOne(w http.ResponseWriter, r *http.Request) {
 //Function To Delete All Jobs
 
 func HandeleDeleteAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	deleteCount, err := db.DeleteAllApplications()
 	if err != nil {
 		json.NewEncoder(w).Encode("Error While Deleteing All job : " + err.Error())
@@ -57,8 +59,9 @@ func HandeleDeleteAll(w http.ResponseWriter, r *http.Request) {
 //Function TO update Jobs
 
 func HandleUpdate(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	id := r.PathValue("id")
-	if r.Body == nil {
+	if r.Body == http.NoBody {
 		json.NewEncoder(w).Encode("Request Body is Empty")
 		return
 	}
