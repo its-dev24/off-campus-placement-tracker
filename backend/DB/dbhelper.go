@@ -40,3 +40,15 @@ func DeleteASingleApplication(id string) (int, error) {
 	}
 	return int(deleteResult.DeletedCount), nil
 }
+
+//Function To Update VAlues
+
+func UpdateJobs(id string, jobs modal.Job) (int, error) {
+	filter := bson.M{"_id": id}
+	update := bson.M{"$set": bson.M{"company": jobs.Company, "jobrole": jobs.JobRole, "status": jobs.Status, "website": jobs.WebSite}}
+	updateResult, err := MongoCol.UpdateByID(context.Background(), filter, update)
+	if err != nil {
+		return 0, nil
+	}
+	return int(updateResult.ModifiedCount), nil
+}
