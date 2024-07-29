@@ -9,9 +9,9 @@ import (
 func Router() *http.ServeMux {
 	var mux http.ServeMux
 	mux.HandleFunc("GET /api/jobs", controllers.HandleReadAll)
-	mux.HandleFunc("DELETE /api/jobs/:id", controllers.HandleDeleteOne)
+	mux.HandleFunc("DELETE /api/jobs/{id}", controllers.HandleDeleteOne)
 	mux.HandleFunc("DELETE /api/jobs", controllers.HandeleDeleteAll)
-	mux.HandleFunc("PUT /api/jobs/:id", controllers.HandleUpdate)
+	mux.HandleFunc("PUT /api/jobs/{id}", controllers.HandleUpdate)
 	return &mux
 
 }
