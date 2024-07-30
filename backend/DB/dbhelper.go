@@ -5,6 +5,7 @@ import (
 
 	"github.com/its-dev24/off-campus-placement-tracker/modal"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 //Function To Find All Applications
@@ -31,9 +32,9 @@ func DeleteAllApplications() (int, error) {
 
 //Function To Delete A Single Job
 
-func DeleteASingleApplication(id int) (int, error) {
-
-	filter := bson.M{"_id": id}
+func DeleteASingleApplication(id string) (int, error) {
+	jobId, err := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": jobId}
 	deleteResult, err := MongoCol.DeleteOne(context.Background(), filter)
 	if err != nil {
 		return 0, nil
@@ -43,8 +44,9 @@ func DeleteASingleApplication(id int) (int, error) {
 
 //Function To Update VAlues
 
-func UpdateJobs(id int, jobs modal.Job) (int, error) {
-	filter := bson.M{"_id": id}
+func UpdateJobs(id string, jobs modal.Job) (int, error) {
+	jobId, err := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": jobId}
 	update := bson.M{"$set": bson.M{"company": jobs.Company, "jobrole": jobs.JobRole, "status": jobs.Status, "website": jobs.WebSite}}
 	updateResult, err := MongoCol.UpdateOne(context.Background(), filter, update)
 	if err != nil {

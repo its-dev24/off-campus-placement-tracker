@@ -32,10 +32,7 @@ func HandleReadAll(w http.ResponseWriter, r *http.Request) {
 
 func HandleDeleteOne(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	id, err := strconv.Atoi(r.PathValue("id"))
-	if err != nil {
-		log.Fatal("Error While converting ID to int : jobController.go : ", err)
-	}
+	id := r.PathValue("id")
 	deletedCount, err := db.DeleteASingleApplication(id)
 	if err != nil {
 		json.NewEncoder(w).Encode("Error While Deleteing A Single job : " + err.Error())
@@ -63,16 +60,13 @@ func HandeleDeleteAll(w http.ResponseWriter, r *http.Request) {
 
 func HandleUpdate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	id, err := strconv.Atoi(r.PathValue("id"))
-	if err != nil {
-		log.Fatal("Error While converting ID to int : jobController.go : ", err)
-	}
+	id := r.PathValue("id")
 	if r.Body == http.NoBody {
 		json.NewEncoder(w).Encode("Request Body is Empty")
 		return
 	}
 	var jobBody modal.Job
-	err = json.NewDecoder(r.Body).Decode(&jobBody)
+	err := json.NewDecoder(r.Body).Decode(&jobBody)
 	if err != nil {
 		log.Fatal("Error while Parsing Body : jobController.go : ", err)
 	}
