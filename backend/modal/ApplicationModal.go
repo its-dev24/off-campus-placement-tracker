@@ -1,7 +1,7 @@
 package modal
 
 type Job struct {
-	Id      int
+	Id      int    `json:"_id,omitempty" bson:"_id,omitempty"`
 	Company string `json:"company,omitempty" bson:"company,omitempty"`
 	JobRole string `json:"jobrole,omitempty" bson:"jobrole,omitempty"`
 	Status  string `json:"status,omitempty" bson:"status,omitempty"`

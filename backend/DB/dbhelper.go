@@ -31,7 +31,7 @@ func DeleteAllApplications() (int, error) {
 
 //Function To Delete A Single Job
 
-func DeleteASingleApplication(id string) (int, error) {
+func DeleteASingleApplication(id int) (int, error) {
 
 	filter := bson.M{"_id": id}
 	deleteResult, err := MongoCol.DeleteOne(context.Background(), filter)
@@ -43,10 +43,10 @@ func DeleteASingleApplication(id string) (int, error) {
 
 //Function To Update VAlues
 
-func UpdateJobs(id string, jobs modal.Job) (int, error) {
+func UpdateJobs(id int, jobs modal.Job) (int, error) {
 	filter := bson.M{"_id": id}
 	update := bson.M{"$set": bson.M{"company": jobs.Company, "jobrole": jobs.JobRole, "status": jobs.Status, "website": jobs.WebSite}}
-	updateResult, err := MongoCol.UpdateByID(context.Background(), filter, update)
+	updateResult, err := MongoCol.UpdateOne(context.Background(), filter, update)
 	if err != nil {
 		return 0, nil
 	}
