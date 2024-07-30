@@ -52,3 +52,13 @@ func UpdateJobs(id int, jobs modal.Job) (int, error) {
 	}
 	return int(updateResult.ModifiedCount), nil
 }
+
+//Function To Insert Values
+
+func InsertJobs(job modal.Job) (interface{}, error) {
+	insertResult, err := MongoCol.InsertOne(context.Background(), job)
+	if err != nil {
+		return nil, err
+	}
+	return insertResult.InsertedID, nil
+}
