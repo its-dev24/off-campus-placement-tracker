@@ -12,6 +12,7 @@ func Router() *http.ServeMux {
 	mux.HandleFunc("DELETE /api/jobs/{id}", controllers.HandleDeleteOne)
 	mux.HandleFunc("DELETE /api/jobs", controllers.HandeleDeleteAll)
 	mux.HandleFunc("PUT /api/jobs/{id}", controllers.HandleUpdate)
+	mux.HandleFunc("POST /api/jobs", controllers.HandleInsert)
 	return &mux
 
 }

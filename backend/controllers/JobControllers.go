@@ -42,7 +42,7 @@ func HandleDeleteOne(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("No of Items Deleted : " + strconv.Itoa(deletedCount))
 }
 
-//Function To Delete All Jobs
+//Handler For Delete All Jobs
 
 func HandeleDeleteAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -56,7 +56,7 @@ func HandeleDeleteAll(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//Function TO update Jobs
+//Handler For update Jobs
 
 func HandleUpdate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -80,4 +80,26 @@ func HandleUpdate(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error while updating Job : JobController.go : ", err)
 	}
 	json.NewEncoder(w).Encode("No of Fileds Updated " + strconv.Itoa(updateCount))
+}
+
+//Handler For Inserting Job
+
+func HandleInsert(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	if r.Body == http.NoBody {
+		json.NewEncoder(w).Encode("The Request Body Is Empty")
+		return
+	}
+	var job modal.Job
+	json.NewDecoder(r.Body).Decode(&job)
+	if job.IsEmpty() {
+		json.NewEncoder(w).Encode("Json Body is Empty Fill All The Fields...")
+		return
+	}
+	insertId, err := db.InsertJobs(job)
+	if err != nil {
+		json.NewEncoder(w).Encode("Error While Inserting Jobs")
+		log.Fatal("Error While Inserting job : jobcontroller.go : ", err)
+	}
+	json.NewEncoder(w).Encode("ID of new Job is : " + insertId.(string))
 }
