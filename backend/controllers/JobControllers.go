@@ -101,5 +101,5 @@ func HandleInsert(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode("Error While Inserting Jobs")
 		log.Fatal("Error While Inserting job : jobcontroller.go : ", err)
 	}
-	json.NewEncoder(w).Encode("ID of new Job is : " + insertId.(string))
+	json.NewEncoder(w).Encode("ID of new Job is : " + insertId)
 }

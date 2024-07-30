@@ -57,10 +57,10 @@ func UpdateJobs(id string, jobs modal.Job) (int, error) {
 
 //Function To Insert Values
 
-func InsertJobs(job modal.Job) (interface{}, error) {
+func InsertJobs(job modal.Job) (string, error) {
 	insertResult, err := MongoCol.InsertOne(context.Background(), job)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return insertResult.InsertedID, nil
+	return insertResult.InsertedID.(primitive.ObjectID).Hex(), nil
 }
